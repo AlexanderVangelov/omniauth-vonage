@@ -25,12 +25,14 @@ module OmniAuth
 
       info do
         {
-          :name:       => raw_info['sub'].split('@')[0]
+          :name       => raw_info['sub'].split('@')[0]
         }
       end
 
       extra do
-        'raw_info' => raw_info
+        {
+          :raw_info => raw_info
+        }
       end
 
       def raw_info
@@ -39,11 +41,11 @@ module OmniAuth
 
     end
 
-    class VonageLegacy < < OmniAuth::Strategies::Vonage
+    class VonageLegacy < OmniAuth::Strategies::Vonage
       default_options[:client_options][:site] = 'https://api.vonage.com'
     end
 
-    class Vgip < < OmniAuth::Strategies::Vonage
+    class Vgip < OmniAuth::Strategies::Vonage
       default_options[:client_options][:site] = 'https://api.gunify.vonage.com/extensions/v2/auth'
     end
 

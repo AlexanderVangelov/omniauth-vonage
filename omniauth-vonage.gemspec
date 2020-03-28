@@ -1,5 +1,5 @@
   
-require File.expand_path('../lib/omniauth-vonage/version', __FILE__)
+require File.expand_path('../lib/omniauth/vonage/version', __FILE__)
 
 Gem::Specification.new do |s|
   s.name        = "omniauth-vonage"
@@ -13,16 +13,16 @@ Gem::Specification.new do |s|
   s.license     = 'MIT'
 
   s.files         = `git ls-files`.split($/)
-  s.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
-  s.test_files    = spec.files.grep(%r{^(test|spec|features)/})
+  s.executables   = s.files.grep(%r{^bin/}) { |f| File.basename(f) }
+  s.test_files    = s.files.grep(%r{^(test|spec|features)/})
   s.require_paths = ["lib"]
 
   s.required_ruby_version = '>= 2.1.0'
 
   s.add_dependency 'omniauth', '~> 1.0'
-  s.add_dependency 'omniauth-oauth2', '>= 1.5.0'
-  s.add_runtime_dependency 'jwt', '>= 2.0'
+  s.add_dependency 'omniauth-oauth2', '~> 1.6', '>= 1.6.0'
+  s.add_runtime_dependency 'jwt', '~> 2.0'
 
   s.add_development_dependency "bundler", "~> 1.3"
-  s.add_development_dependency "rake"
+  s.add_development_dependency "rake", '~> 0'
 end

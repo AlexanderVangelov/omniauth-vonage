@@ -1,2 +1,1 @@
-require 'omniauth-vonage/version'
-require 'omniauth/strategies/vonage'
+require 'omniauth/vonage'
