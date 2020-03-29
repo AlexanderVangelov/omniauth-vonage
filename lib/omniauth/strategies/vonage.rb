@@ -5,7 +5,7 @@ module OmniAuth
   module Strategies
     class Vonage < OmniAuth::Strategies::OAuth2
 
-      option :name, 'google_oauth2'
+      option :name, 'vonage'
 
       option :authorize_options, [
         :scope,
@@ -16,9 +16,9 @@ module OmniAuth
       ]
       
       option :client_options, {
-        :site          => 'https://login.auth.vonage.com/oauth2',
-        :authorize_url => '/authorize',
-        :token_url     => '/token'
+        :site          => 'https://login.auth.vonage.com',
+        :authorize_url => '/oauth2/authorize',
+        :token_url     => '/oauth2/token'
       }
 
       uid { raw_info['sub'] }
@@ -36,21 +36,30 @@ module OmniAuth
       end
 
       def raw_info
-        @raw_info ||= access_token.get('/userinfo').parsed
+        @raw_info ||= access_token.get('/oauth2/userinfo').parsed
       end
 
-    end
+      def callback_url
+        options[:redirect_uri] || (full_host + script_name + callback_path)
+      end
 
-    class VonageLegacy < OmniAuth::Strategies::Vonage
-      default_options[:client_options][:site] = 'https://api.vonage.com'
-    end
+      def get_access_token(request)
+        verifier = request.params['code']
+        client_get_token(verifier, callback_url)
+      end
 
-    class Vgip < OmniAuth::Strategies::Vonage
-      default_options[:client_options][:site] = 'https://api.gunify.vonage.com/extensions/v2/auth'
-    end
+      def client_get_token(verifier, redirect_uri)
+        client.auth_code.get_token(verifier, get_token_options(redirect_uri), get_token_params)
+      end
 
-    class VonageQa7 < OmniAuth::Strategies::Vonage
-      default_options[:client_options][:site] = 'https://keymanager.entva0.qa.vonagenetworks.net/oauth2'
+      def get_token_params
+        deep_symbolize(options.auth_token_params || {})
+      end
+
+      def get_token_options(redirect_uri = '')
+        { redirect_uri: redirect_uri }.merge(token_params.to_hash(symbolize_keys: true))
+      end
+
     end
   end
 end
