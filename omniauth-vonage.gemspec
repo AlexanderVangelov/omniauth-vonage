@@ -21,8 +21,6 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'omniauth', '~> 1.0'
   s.add_dependency 'omniauth-oauth2', '~> 1.6', '>= 1.6.0'
-  s.add_runtime_dependency 'jwt', '~> 2.0'
 
   s.add_development_dependency "bundler", "~> 1.3"
-  s.add_development_dependency "rake", '~> 0'
 end

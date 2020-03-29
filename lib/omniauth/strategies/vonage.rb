@@ -1,5 +1,4 @@
 require 'omniauth-oauth2'
-require 'jwt'
 
 module OmniAuth
   module Strategies
